@@ -4,7 +4,18 @@ from .models import Book
 from .models import Library
 from django.views.generic.detail import DetailView
 
+# User registration
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+
+
 # Create your views here.
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'register.html'
+
 def list_books(request):
     # Get books from the database
     books = Book.objects.all()
