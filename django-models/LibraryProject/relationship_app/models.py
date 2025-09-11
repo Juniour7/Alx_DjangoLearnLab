@@ -32,6 +32,7 @@ class Librarian(models.Model):
     def __str__(self):
         return self.name
 
+# Role based user profile
 class UserProfile(models.Model):
     ROLES = (
         ('Admin', 'Admin'), 
