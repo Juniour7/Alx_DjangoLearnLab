@@ -31,3 +31,15 @@ class Librarian(models.Model):
 
     def __str__(self):
         return self.name
+
+class UserProfile(models.Model):
+    ROLES = (
+        ('Admin', 'Admin'), 
+        ('Librarian', 'Librarian'),
+        ('Member', 'Member'),
+    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=20, choices=ROLES)
+
+    def __str__(self):
+        return self.user.username

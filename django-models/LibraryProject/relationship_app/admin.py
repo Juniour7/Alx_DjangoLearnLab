@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Author, Book, Librarian, Library
+from .models import Author, Book, Librarian, Library, UserProfile
 
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ['name']
@@ -10,3 +10,4 @@ admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book)
 admin.site.register(Library)
 admin.site.register(Librarian)
+admin.site.register(UserProfile)
