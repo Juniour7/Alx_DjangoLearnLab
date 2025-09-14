@@ -1,13 +1,36 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Author, Book, Librarian, Library
 from django.views.generic.detail import DetailView
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, permission_required
 
 # User registration
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+
+
+#Add Book
+@permission_required('relationship_app.can_view_member_page', raise_exception=True)
+def add_book(request):
+    if request.method == "POST":
+        title = request.POST.get("title")
+        author = request.POST.get("author")
+        Book.objects.create(title=title, author=author)
+        return redirect("book_list")
+    return render(request, "relationship_app/add_book.html")
+
+#Edit Book
+@permission_required('relationship_app.can_edit_book', raise_exception=True)
+def edit_book(request, book_id):
+    book = Book.objects.get(id=book_id)
+    if request.method == "POST":
+        book.title = request.POST.get("title")
+        book.author = request.POST.get("author")
+        book.save()
+        return redirect("book_list")
+    return render(request, "relationship_app/edit_book.html", {"book": book})
+
 
 # --- Role check functions ---
 def is_member(user):
