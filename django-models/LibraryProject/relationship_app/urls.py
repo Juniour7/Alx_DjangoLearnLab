@@ -1,26 +1,28 @@
 from django.urls import path
-from .views import list_books, LibraryDetailView, SignUpView, LoginView, LogoutView
-from .admin_view import admin_view
-from .librarian_view import librarian_display
-from .member_view import member_display
-from . import views
+from .views import (
+    list_books, LibraryDetailView,
+    SignUpView, LoginView, LogoutView,
+    admin_view, librarian_view, member_display,
+    add_book, edit_book, delete_book
+)
 
-
-# Urls for relationship app
 urlpatterns = [
-    path('book-list/', list_books, name='book_list'),
+    # Books
+    path('books/', list_books, name='book_list'),
+    path('books/add/', add_book, name='add_book'),
+    path('books/edit/<int:book_id>/', edit_book, name='edit_book'),
+    path('books/delete/<int:book_id>/', delete_book, name='delete_book'),
+
+    # Library
     path('library/', LibraryDetailView.as_view(), name='library'),
+
+    # Auth
     path('register/', SignUpView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView, name='logout'),
+
+    # Role-based views
     path('admin-view/', admin_view, name='admin_view'),
-
-    #Librarian 
-    path('librarian-view/', librarian_display, name='librarian_view'),
+    path('librarian-view/', librarian_view, name='librarian_view'),
     path('member-view/', member_display, name='member_view'),
-
-    path("books/", views.book_list, name="book_list"),
-    path("books/add/", views.add_book, name="add_book"),
-    path("books/edit/<int:book_id>/", views.edit_book, name="edit_book"),
-    path("books/delete/<int:book_id>/", views.delete_book, name="delete_book"),
 ]
