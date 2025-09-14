@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Librarian Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #2c3e50; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 30px; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background: #f4f4f4; text-align: left; }
+    </style>
+</head>
+<body>
+    <h1>📚 Librarian Dashboard</h1>
+
+    <h2>Librarians</h2>
+    <table>
+        <tr><th>Name</th><th>Email</th></tr>
+        {% for librarian in librarians %}
+        <tr>
+            <td>{{ librarian.name }}</td>
+            <td>{{ librarian.email }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="2">No librarians found.</td></tr>
+        {% endfor %}
+    </table>
+
+    <h2>Libraries</h2>
+    <table>
+        <tr><th>Name</th><th>Location</th></tr>
+        {% for library in libraries %}
+        <tr>
+            <td>{{ library.name }}</td>
+            <td>{{ library.location }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="2">No libraries found.</td></tr>
+        {% endfor %}
+    </table>
+
+    <h2>Books</h2>
+    <table>
+        <tr><th>Title</th><th>Author</th><th>Published Year</th></tr>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author.name }}</td>
+            <td>{{ book.published_year }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">No books found.</td></tr>
+        {% endfor %}
+    </table>
+
+    <h2>Authors</h2>
+    <table>
+        <tr><th>Name</th><th>Country</th></tr>
+        {% for author in authors %}
+        <tr>
+            <td>{{ author.name }}</td>
+            <td>{{ author.country }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="2">No authors found.</td></tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
