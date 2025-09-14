@@ -1,7 +1,18 @@
 from django.db import models
-from django.contrib.auth.models import User # This si built in model for User management
+from django.contrib.auth.models import User # This is built in model for User management
 
+# Role based user profile
+class UserProfile(models.Model):
+    ROLES = (
+        ('Admin', 'Admin'), 
+        ('Librarian', 'Librarian'),
+        ('Member', 'Member'),
+    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=20, choices=ROLES)
 
+    def __str__(self):
+        return self.user.username
 
 # Create your models here.
 class Author(models.Model):
@@ -32,15 +43,3 @@ class Librarian(models.Model):
     def __str__(self):
         return self.name
 
-# Role based user profile
-class UserProfile(models.Model):
-    ROLES = (
-        ('Admin', 'Admin'), 
-        ('Librarian', 'Librarian'),
-        ('Member', 'Member'),
-    )
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    role = models.CharField(max_length=20, choices=ROLES)
-
-    def __str__(self):
-        return self.user.username
