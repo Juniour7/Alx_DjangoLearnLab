@@ -1,7 +1,6 @@
 from django.urls import path
-from .views import list_books, LibraryDetailView, SignUpView
+from .views import list_books, LibraryDetailView, SignUpView, LoginView, LogoutView
 from .admin_view import admin_view
-from django.contrib.auth.views import LoginView, LogoutView
 
 # Urls for relationship app
 urlpatterns = [
