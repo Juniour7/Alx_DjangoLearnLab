@@ -21,7 +21,7 @@ def add_book(request):
     return render(request, "relationship_app/add_book.html")
 
 #Edit Book
-@permission_required('relationship_app.can_edit_book', raise_exception=True)
+@permission_required('relationship_app.can_change_book', raise_exception=True)
 def edit_book(request, book_id):
     book = Book.objects.get(id=book_id)
     if request.method == "POST":
