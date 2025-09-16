@@ -6,11 +6,11 @@ class BookAdmin(admin.ModelAdmin):
     list_filter = ('title','author', 'publication_year')
     search_fields = ('title', 'author', 'publication_year')
 
-class ModelAdmin(admin.ModelAdmin):
+class CustomUserAdmin(admin.ModelAdmin):
     list_display = ('username', 'email', 'date_of_birth')
     list_filter = ('username', 'email', 'date_of_birth')
 
 # Register your models here.
 admin.site.register(Book, BookAdmin)
 admin.site.register(Author)
-admin.site.register(CustomUser, ModelAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)
