@@ -25,6 +25,8 @@ SECRET_KEY = 'django-insecure-jjz#eq=n4s5e+rxyn+$r6(dlqn8(upodyr6a)isk4m+wa8t3p-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+AUTH_USER_MODEL = 'relationship_app.CustomUser'
+
 ALLOWED_HOSTS = []
 
 
