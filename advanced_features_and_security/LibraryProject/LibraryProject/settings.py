@@ -25,7 +25,6 @@ SECRET_KEY = 'django-insecure-jjz#eq=n4s5e+rxyn+$r6(dlqn8(upodyr6a)isk4m+wa8t3p-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-AUTH_USER_MODEL = 'relationship_app.CustomUser'
 
 ALLOWED_HOSTS = []
 
@@ -40,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bookshelf',
-    'relationship_app'
 ]
 
 MIDDLEWARE = [
@@ -58,7 +56,7 @@ ROOT_URLCONF = 'LibraryProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ BASE_DIR / 'templates' ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
