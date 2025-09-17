@@ -1,22 +1,43 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.views.generic import TemplateView
-import datetime
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse, HttpResponseForbidden
+from .models import Book
+from django.contrib.auth.decorators import  permission_required
 
-# Create your views here.
-def say_hello(request):
-    """This returns the words Hello World"""
-    return HttpResponse("Hello There")
 
-def current_datetime(request):
-    now = datetime.datetime.now()
-    html = '<html lang="en"><body>It is now %s.</body></html>' % now
-    return HttpResponse(html)
+@permission_required('bookshelf.can_view', raise_exception=True)
+def book_list(request):
+    """This displays all the boojs within the database for the permission can_view"""
+    books = Book.objects.all()
+    return render(request, 'bookshelf/book_list.html', {'books': books})
 
-def template_view(request):
-    """Renders a Html document"""
-    return render(request, 'hello.html')
+# View reuires can_create permission
+@permission_required('bookshelf.can_create', raise_exception=True)
+def create_book(request):
+    if request.method == "POST":
+        title = request.POST.get('title')
+        author = request.POST.get('author')
+        publication_year = request.POST.get('publication_year')
+        Book.objects.create(title=title, author=author, publication_year = publication_year)
+        return redirect('book_list')
+    return render(request, 'articles/create.html')
+    
+# View to edit the already existing books
+@permission_required('bookshelf.can_edit', raise_exception= True)
+def edit_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == 'POST':
+        book.title = request.POST.get('title')
+        book.author = request.POST.get('author')
+        book.publication_year = request.POST.get('publication_year')
+        book.save()
+        return redirect('book_list')
+    return render(request, 'bookshelf/edit.html', {'book': book})
 
-class HelloView(TemplateView):
-    """This is a class based view"""
-    template_name = 'hello.html'
+# View to delete a book
+@permission_required('bookshelf.can_delete', raise_exception=True)
+def delete_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == 'POST':
+        book.delete()
+        return redirect('book_list')
+    return render(request, 'bookshelf/delete.html', {'book': book})

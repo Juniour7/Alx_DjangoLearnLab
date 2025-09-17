@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 
 # Create your models here.
 class CustomUser(AbstractUser):
@@ -34,3 +36,14 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     publication_year = models.IntegerField()
+
+    class Meta:
+        permissions = [
+            ("can_view", "Can view book details"),
+            ("can_create", "Can create new book entries"),
+            ("can_edit", "Can edit book details"),
+            ("can_delete", "Can delete book entries"),
+        ]
+    
+    def __str__(self):
+        return self.title
