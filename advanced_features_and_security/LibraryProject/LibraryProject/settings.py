@@ -38,6 +38,9 @@ X_FRAME_OPTIONS = 'DENY'  # Prevent clickjacking
 SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent MIME type sniffing
 SECURE_BROWSER_XSS_FILTER = True  # Enable the browser's XSS filtering and prevent rendering of the page if an attack is detected
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+HTTP_X_FORWARDED_PROTO = 'https'
+
 ALLOWED_HOSTS = []
 
 
