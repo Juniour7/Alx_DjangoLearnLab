@@ -19,7 +19,7 @@ def create_book(request):
         publication_year = request.POST.get('publication_year')
         Book.objects.create(title=title, author=author, publication_year = publication_year)
         return redirect('book_list')
-    return render(request, 'articles/create.html')
+    return render(request, 'bookshelf/create.html')
     
 # View to edit the already existing books
 @permission_required('bookshelf.can_edit', raise_exception= True)
