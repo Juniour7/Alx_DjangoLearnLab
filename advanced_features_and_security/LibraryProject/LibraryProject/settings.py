@@ -30,6 +30,14 @@ SECURE_HSTS_SECONDS = 31536000     # 1 year -- enable only when you're fully HTT
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
+SECURE_SSL_REDIRECT = True  # Redirect all non-HTTPS requests to HTTPS
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+X_FRAME_OPTIONS = 'DENY'  # Prevent clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent MIME type sniffing
+SECURE_BROWSER_XSS_FILTER = True  # Enable the browser's XSS filtering and prevent rendering of the page if an attack is detected
+
 ALLOWED_HOSTS = []
 
 
