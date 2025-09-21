@@ -5,4 +5,4 @@ from rest_framework import viewsets
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        feilds = '__all__'
+        fields = '__all__'
