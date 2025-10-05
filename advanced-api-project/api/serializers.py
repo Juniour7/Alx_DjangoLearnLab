@@ -23,6 +23,7 @@ class BookSerializer(serializers.ModelSerializer):
 
 class AuthorSerializer(serializers.ModelSerializer):
     # Reveals the author information
+    name = serializers.CharField(many=True, read_only=True)
     class Meta:
         model = Author
         fields = ['id', 'name']
