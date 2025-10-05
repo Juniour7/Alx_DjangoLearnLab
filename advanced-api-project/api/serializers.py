@@ -22,8 +22,8 @@ class BookSerializer(serializers.ModelSerializer):
         return value
 
 class AuthorSerializer(serializers.ModelSerializer):
-    # Reveals the author information
-    name = serializers.CharField(many=True, read_only=True)
+    # Reveals the author information and their books
+    books = BookSerializer(many=True, read_only=True) # this is a nested serializer
     class Meta:
         model = Author
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'books']
