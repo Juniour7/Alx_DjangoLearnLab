@@ -44,7 +44,7 @@ class BookAPITestCase(APITestCase):
         self.assertEqual(response.data['title'], "The Hobbit")
     
 
-        def test_create_book_requires_authentication(self):
+    def test_create_book_requires_authentication(self):
         """Test that unauthenticated users cannot create a book."""
         data = {'title': 'Silmarillion', 'publication_year': 1977, 'author': self.author.id}
         response = self.client.post(self.create_url, data)

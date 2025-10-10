@@ -6,15 +6,24 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from rest_framework.generics import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
-
-from .forms import RegisterForm, PostForm
+from .forms import RegisterForm, PostForm, ProfileUpdateForm, UserUpdateForm
 from .models import Post
 
-# Create your views here.
-@api_view(['POST'])
-@permission_classes([AllowAny])
+
+
+# Views for user and profile management
+
+# -----------ENDPOINT FOR THE HOMEPAGE-----------------
+
+def home_view(request):
+    return render(request, 'base.html')
+
+# -----------VIEW TO HANDLE SIGNUPS TO THE APP-----------------
+
 def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -28,8 +37,8 @@ def register_view(request):
 
     return render(request, 'blog/register.html', {'form': form})
 
-@api_view(['POST'])
-@permission_classes([AllowAny])
+# -----------VIEW TO HANDLE LOGIN TO THE APP-----------------
+
 def login_view(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
@@ -41,13 +50,38 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'blog/login.html', {'form': form})
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
+
+# -----------VIEW TO HANDLE logout FROM THE APP-----------------
+
+
 def logout_view(request):
     logout(request)
     return render(request, 'blog/logout.html')
 
 
+# -----------ENPOINT FOR USER PROFILE-----------------
+@login_required
+def profile_view(request):
+    user = request.user
+
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=user.profile)
+
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            return redirect('profile')  # refresh page after saving
+    else:
+        u_form = UserUpdateForm(instance=user)
+        p_form = ProfileUpdateForm(instance=user.profile)
+
+    return render(request, 'blog/profile.html', {
+        'u_form': u_form,
+        'p_form': p_form
+    })
+
+# View for Blog Post managements
 
 class PostListView(ListView):
     model = Post
