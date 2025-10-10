@@ -83,20 +83,8 @@ def profile_view(request):
 
 # View for Blog Post managements
 
-class PostListView(ListView):
-    model = Post
-    template_name = 'blog/post_list.html'  # templates/blog/post_list.html
-    context_object_name = 'posts'
-    paginate_by = 10
+# --------CREATE A NEW BLOG---------
 
-
-# Detail view — public
-class PostDetailView(DetailView):
-    model = Post
-    template_name = 'blog/post_detail.html'  # templates/blog/post_detail.html
-    context_object_name = 'post'
-
-# Create view — authenticated users only
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
@@ -108,8 +96,27 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         # Automatically set the author to the logged-in user before saving
         form.instance.author = self.request.user
         return super().form_valid(form)
+    
 
-# Update view — only author can edit
+# --------LISTVIEW TO LIST ALL AVAILABLE BLOGS---------
+
+class PostListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'  # templates/blog/post_list.html
+    context_object_name = 'posts'
+    paginate_by = 10
+
+
+# --------DETAILVIEW TO VIEW DETAILS OF PARTICULAR BLOG---------
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'blog/post_detail.html'  # templates/blog/post_detail.html
+    context_object_name = 'post'
+
+
+# --------UPDATE ENDPOINT FOR BLOGS---------
+
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     form_class = PostForm
@@ -120,7 +127,9 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         post = self.get_object()
         return post.author == self.request.user  # only author allowed
 
-# Delete view — only author can delete
+
+# --------DELETE VIEW FOR A PARTICULAR BLOG---------
+
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = 'blog/post_confirm_delete.html'  # templates/blog/post_confirm_delete.html

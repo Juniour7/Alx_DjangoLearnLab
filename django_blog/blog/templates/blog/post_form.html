@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}{{ view.object.title|default:"New Post" }}{% endblock %}
+{% block content %}
+
+<h2>
+  {% if view.object %}
+    Edit Post
+  {% else %}
+    Create a New Post
+  {% endif %}
+</h2>
+
+<form method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save</button>
+</form>
+
+<a href="{% url 'post-list' %}">Cancel</a>
+{% endblock %}
