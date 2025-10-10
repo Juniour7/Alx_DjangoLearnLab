@@ -10,8 +10,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from .forms import RegisterForm, PostForm, ProfileUpdateForm, UserUpdateForm
-from .models import Post
+from .forms import RegisterForm, PostForm, ProfileUpdateForm, UserUpdateForm, CommentForm
+from .models import Post, Comment
 
 
 
@@ -139,3 +139,32 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         post = self.get_object()
         return post.author == self.request.user  # only author allowed
+    
+
+# Comment Management enpoints
+
+# ---------CREATING A NEW COMMENT--------
+
+class CommentCreateView(CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'blog/comment.html'
+
+    def form_valid(self,form):
+        post = get_object_or_404(Post, pk=self.kwargs['pk'])
+        form.instance.post = post
+        form.instance.author = self.request.user
+
+        return super().form_valid(form)
+    
+
+class CommentUpdateView(UpdateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'blog/comment.html'
+
+
+class CommentDeleteView(DeleteView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'blog/comment.html'
