@@ -4,14 +4,21 @@ from rest_framework.authtoken.models import Token
 
 CustomUser = get_user_model()
 
+# -----COompact user for lists of followers/following -----
+class CompactUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'profile_picture']
+
 
 
 # ---------Custom User Serializer ---------
-
 class CustomUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     email = serializers.EmailField(required=True)
     token = serializers.CharField(read_only=True)
+    followers = CompactUserSerializer(many=True, read_only=True)
+    following = CompactUserSerializer(many=True, read_only=True)
 
     class Meta:
         model = CustomUser
@@ -31,3 +38,4 @@ class CustomUserSerializer(serializers.ModelSerializer):
         user.token = token.key
 
         return user
+    

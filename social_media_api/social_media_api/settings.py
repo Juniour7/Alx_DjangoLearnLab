@@ -22,6 +22,7 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 INSTALLED_APPS = [
     'posts',
     'accounts',
+    'notifications',
     'rest_framework',   
     'rest_framework.authtoken',
     'django.contrib.admin',
