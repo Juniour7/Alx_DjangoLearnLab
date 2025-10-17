@@ -10,7 +10,7 @@ CustomUser = get_user_model()
 
 class CustomUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
-    email = serializers.EmailField(required=True)
+    email = serializers.EmailField()
     token = serializers.CharField(read_only=True)
 
     class Meta:
