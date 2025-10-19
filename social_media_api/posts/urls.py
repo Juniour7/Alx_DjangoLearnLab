@@ -5,7 +5,7 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'posts', views.PostView, basename='post')
-router.register(r'comments', views.CommentView, basename='comment')
+router.register(r'comments', views.CommentView, basename='comment') # this endpoint still needs work
 
 urlpatterns = [
    path('', include(router.urls)),
